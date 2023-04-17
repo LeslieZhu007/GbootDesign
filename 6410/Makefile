@@ -1,0 +1,11 @@
+all:start.o
+	arm-none-eabi-ld -Tgboot.lds -o gboot.elf $^
+	arm-none-eabi-objcopy -O binary gboot.elf gboot.bin
+
+%.o:%.S 
+	arm-none-eabi-gcc -g -c $^
+%.o:%c
+	arm-none-eabi-gcc -g -c $^
+.PHONY:clean
+clean:
+	rm *.o *.bin *.elf
