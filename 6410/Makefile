@@ -1,11 +1,12 @@
-all:start.o mem.o
-	arm-none-eabi-ld -Tgboot.lds -o gboot.elf $^
-	arm-none-eabi-objcopy -O binary gboot.elf gboot.bin
+CROSS_COMPILE=arm-none-eabi-
+all:start.o mem.o main.o
+	$(CROSS_COMPILE)ld -Tgboot.lds -o gboot.elf $^
+	$(CROSS_COMPILE)objcopy -O binary gboot.elf gboot.bin
 
 %.o:%.S 
-	arm-none-eabi-gcc -g -c $^
-%.o:%c
-	arm-none-eabi-gcc -g -c $^
+	$(CROSS_COMPILE)gcc -g -c $^
+%.o:%.c
+	$(CROSS_COMPILE)gcc -g -c $^
 .PHONY:clean
 clean:
 	rm *.o *.bin *.elf
